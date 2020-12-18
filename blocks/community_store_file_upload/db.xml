@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        xmlns="http://www.concrete5.org/doctrine-xml/0.5"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
+    <table name="btCommunityStoreFileUpload">
+        <field name="bID" type="integer"  size="10">
+            <unsigned />
+            <key />
+        </field>
+
+        <field name="buttonLabel" type="string" size="255" />
+
+
+        <field name="promptText" type="text" />
+        <field name="successText" type="text" />
+        <field name="completedText" type="text" />
+
+        <field name="emailNotification" type="boolean">
+            <default value="0"/>
+        </field>
+
+        <field name="recipientEmail" type="text" />
+
+        <field name="allowReplacing" type="boolean">
+            <default value="0"/>
+        </field>
+
+        <field name="replacingHours" type="integer">
+            <default value="0"/>
+        </field>
+
+        <field name="allowSearching" type="boolean">
+            <default value="0"/>
+        </field>
+
+        <field name="addFilesToSet" type="integer">
+            <default value="0"/>
+        </field>
+        <field name="addFilesToFolder" type="integer">
+            <default value="0"/>
+        </field>
+
+    </table>
+</schema>
+
+
+
+
+
+
