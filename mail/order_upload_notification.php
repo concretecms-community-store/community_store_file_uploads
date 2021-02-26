@@ -85,7 +85,7 @@ ob_start();
 
 
 
-<p><a href="<?= Url::to('/dashboard/store/orders/order/'. $order->getOrderID());?>"><?=t('View this order within the Dashboard');?></a></p>
+<p><a href="<?= \Concrete\Core\Support\Facade\Url::to('/dashboard/store/orders/order/'. $order->getOrderID());?>"><?=t('View this order within the Dashboard');?></a></p>
 
 </body>
 </html>
