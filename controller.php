@@ -19,7 +19,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'community_store_file_uploads';
     protected $appVersionRequired = '8.4';
-    protected $pkgVersion = '1.0';
+    protected $pkgVersion = '1.0.1';
     protected $packageDependencies = ['community_store'=>'2.0'];
 
     protected $pkgAutoloaderRegistries = [

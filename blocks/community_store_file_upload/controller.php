@@ -47,6 +47,15 @@ class Controller extends BlockController
         $this->set('app', $app);
     }
 
+    public function save($args)
+    {
+        if (!is_numeric($args['replacingHours']) || $args['replacingHours'] < 1) {
+            $args['replacingHours'] = 0;
+        }
+
+        parent::save($args);
+    }
+
     public function action_upload($bID = false)
     {
         $app = ApplicationFacade::getFacadeApplication();
