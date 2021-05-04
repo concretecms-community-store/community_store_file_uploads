@@ -75,8 +75,12 @@
                                 <?php $fieldcount++;
                             } ?>
 
-                            <?php if ($field['label']) { ?>
-                            <span class="help-block"><?= h($field['label']); ?></span>
+                            <?php if ($field['label'] || $field['quantity'] > 1) { ?>
+                            <span class="help-block"><?= h($field['label']); ?>
+                            <?php if ($field['quantity'] > 1) { ?>
+                                <?= ($field['label'] ? ' - ' : '') . t('File') . ' ' . $field['count']; ?>
+                                <?php }?>
+                            </span>
                             <?php } ?>
 
                         </div>

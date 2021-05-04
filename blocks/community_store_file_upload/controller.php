@@ -275,7 +275,13 @@ class Controller extends BlockController
                 if ($product->getAttribute('file_upload')) {
                     $label = $product->getAttribute('file_upload_label');
 
-                    $quantity = $item->getQuantity();
+                    $multiplier = $product->getAttribute('file_upload_number_uploads');
+
+                    if (!($multiplier > 0)) {
+                        $multiplier = 1;
+                    }
+
+                    $quantity = $item->getQuantity() * $multiplier;
 
                     if ($quantity == 1) {
                         $file = false;

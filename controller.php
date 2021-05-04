@@ -19,7 +19,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'community_store_file_uploads';
     protected $appVersionRequired = '8.4';
-    protected $pkgVersion = '1.0.1';
+    protected $pkgVersion = '1.0.2';
     protected $packageDependencies = ['community_store'=>'2.0'];
 
     protected $pkgAutoloaderRegistries = [
@@ -38,7 +38,6 @@ class Controller extends Package
 
     public function install()
     {
-        $app = ApplicationFacade::getFacadeApplication();
         $pkg = parent::install();
 
         $orderCategory = Category::getByHandle('store_order');
@@ -49,8 +48,22 @@ class Controller extends Package
             BlockType::installBlockType('community_store_file_upload', $pkg);
         }
 
+       $this->installAttributes($pkg);
+
+    }
+
+    public function upgrade()
+    {
+        parent::upgrade();
+        $pkg = $this->app->make('Concrete\Core\Package\PackageService')->getByHandle('community_store_file_uploads');
+        $this->installAttributes($pkg);
+    }
+
+    private function installAttributes($pkg) {
+        $app = ApplicationFacade::getFacadeApplication();
         $boolean = AttributeType::getByHandle('boolean');
         $text = AttributeType::getByHandle('text');
+        $number = AttributeType::getByHandle('number');
 
         $productCatgegory = $app->make('Concrete\Package\CommunityStore\Attribute\Category\ProductCategory');
 
@@ -72,5 +85,13 @@ class Controller extends Package
             $key = $productCatgegory->add($text, $key, null, $pkg);
         }
 
+        $attr = $productCatgegory->getAttributeKeyByHandle('file_upload_number_uploads');
+
+        if (!is_object($attr)) {
+            $key = new StoreProductKey();
+            $key->setAttributeKeyHandle('file_upload_number_uploads');
+            $key->setAttributeKeyName(t('Number Of Uploads Per Item'));
+            $key = $productCatgegory->add($number, $key, null, $pkg);
+        }
     }
 }
