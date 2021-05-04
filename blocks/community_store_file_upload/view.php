@@ -37,7 +37,8 @@
                     $item = $field['item'];
                     ?>
 
-                    <td><p><?= h($item->getProductName()) ?>
+                    <?php if ($field['count'] == 1  ) { ?>
+                    <td rowspan="<?= ($field['quantity'] ?  $field['quantity'] : 1); ?>"><p><?= h($item->getProductName()) ?>
                         <?php if ($sku = $item->getSKU()) {
                             echo '(' . h($sku) . ')';
                         } ?>
@@ -55,6 +56,7 @@
                         ?>
 
                     </td>
+                    <?php } ?>
 
                     <td>
                         <div class="form-group">
