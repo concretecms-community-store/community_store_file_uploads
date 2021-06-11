@@ -15,11 +15,11 @@
 
             <h2><?= t('Upload Files for Order #%s', $order->getOrderID()); ?></h2>
 
-            <?php if (isset($actions)) { ?>
-                <?= $successText; ?>
-            <?php } else { ?>
-                <?= $promptText; ?>
-            <?php } ?>
+        <?php if (isset($actions)) { ?>
+            <?= $successText; ?>
+        <?php } else { ?>
+            <?= $promptText; ?>
+        <?php } ?>
 
             <table class="table table-striped" id="store-fileupload-table">
                 <thead>
@@ -27,6 +27,7 @@
                     <th><strong><?= t("Item"); ?></strong></th>
                     <th class=""><?= t("Status"); ?></th>
                     <th class=""><?= t("File Uploads"); ?></th>
+                    <th class=""></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,9 +38,9 @@
                     $item = $field['item'];
                     ?>
 
-                    <tr <?= $file ? 'class="upload-completed"' : ''; ?>>
+                    <tr <?= $file ? 'class="upload-completed"' : '';?>>
 
-                        <td <?= $file ? 'class="bg-success"' : ''; ?>><p><?= h($item->getProductName()) ?>
+                        <td <?= $file ? 'class="bg-success"' : '';?>><p><?= h($item->getProductName()) ?>
                                 <?php if ($sku = $item->getSKU()) {
                                     echo '(' . h($sku) . ')';
                                 } ?>
@@ -66,18 +67,21 @@
 
                         </td>
                         <td>
-                            <div class="form-group">
-                                <?php if ($file || ($file && $allowReplacing)) { ?>
-                                    <label class="control-label" for="<?= h($field['field']); ?>">
-                                        <?php if ($file && $allowReplacing) { ?>
-                                            <?= t('Replace'); ?>
-                                        <?php } ?>
-
-                                        <?php if ($file) { ?>
-                                            <em><?= h($file->getTitle()); ?></em>
-                                        <?php } ?>
-                                    </label>
+                            <?php if ($file || ($file && $allowReplacing)) { ?>
+                            <label class="control-label" for="<?= h($field['field']); ?>">
+                                <?php if ($file) { ?>
+                                    <em><?= h($file->getTitle()); ?></em>
                                 <?php } ?>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <?php } ?>
+
+                                <?php if ($file && $allowReplacing) { ?>
+                                    <strong><?= t('Replace File'); ?></strong>
+                                <?php } ?>
+
                                 <?php if (!$file || $allowReplacing) { ?>
                                     <input type="file" class="form-control" name="<?= h($field['field']); ?>" id="<?= h($field['field']); ?>">
 
@@ -97,26 +101,33 @@
                 <?php } ?>
             </table>
 
-            <?php if ($fieldcount > 0) { ?>
-                <p class="text-right">
-                    <button type="submit" class="btn btn-primary"><?= $buttonLabel ? h($buttonLabel) : t('Upload') ?></button>
-                </p>
-            <?php } else { ?>
-                <p class="alert alert-info"><?= $completedText ? h($completedText) : t('All files have been uploaded'); ?></p>
-                <style>
-                    #store-fileupload-table {
-                        display: none;
-                    }
-                </style>
-            <?php } ?>
+        <?php if ($fieldcount > 0) { ?>
+            <p class="text-right"><button type="submit" class="upload-button btn btn-primary"><?= $buttonLabel ? h($buttonLabel) : t('Upload') ?></button></p>
+
+            <script>
+                $(document).ready(function(){
+                    $('.store-fileupload').on('submit', function(){
+                        $('.upload-button').prop('disabled', true).html('<?= t('Uploading...'); ?>');
+                    });
+                })
+            </script>
+        <?php } else { ?>
+            <p class="alert alert-info"><?= $completedText ? h($completedText) : t('All files have been uploaded'); ?></p>
+            <style>
+                #store-fileupload-table {
+                    display: none;
+                }
+            </style>
+
+        <?php } ?>
 
         <?php } elseif ($allowSearching) { ?>
 
             <h2><?= t('Find Order'); ?></h2>
 
             <?php if (isset($notFound)) { ?>
-                <p class="alert alert-danger"><?= t('No order was found matching that order number and email'); ?></p>
-            <?php } ?>
+            <p class="alert alert-danger"><?= t('No order was found matching that order number and email'); ?></p>
+        <?php } ?>
 
             <div class="form-group">
                 <label class="control-label" for="email"><?= t('Order Number'); ?></label>
@@ -134,3 +145,4 @@
 
     </form>
 <?php } ?>
+

@@ -31,7 +31,7 @@ ob_start();
         <th style="border-bottom: 1px solid #aaa; text-align: left; padding-right: 10px;"><?= t('Product Name') ?></th>
         <th style="border-bottom: 1px solid #aaa; text-align: left; padding-right: 10px;"><?= t('Options') ?></th>
         <th style="border-bottom: 1px solid #aaa; text-align: right; padding-right: 10px;"><?= t('Qty') ?></th>
-        <th style="border-bottom: 1px solid #aaa; text-align: left; padding-right: 10px;"><?= t('File Uploads') ?></th>
+        <th style="border-bottom: 1px solid #aaa; text-align: right; padding-right: 10px;"><?= t('File Uploads') ?></th>
     </tr>
     </thead>
     <tbody>

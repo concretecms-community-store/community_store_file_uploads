@@ -56,6 +56,11 @@ class Controller extends BlockController
         parent::save($args);
     }
 
+    public function registerViewAssets($outputContent = '')
+    {
+        $this->requireAsset('javascript', 'jquery');
+    }
+
     public function action_upload($bID = false)
     {
         $app = ApplicationFacade::getFacadeApplication();
