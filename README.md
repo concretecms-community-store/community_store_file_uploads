@@ -15,3 +15,5 @@ There is also a 'File Upload Label' attribute against products to customise the 
 
 The block can also be configured to allow searching for an order to upload files against, searching by order number and email.
 This configuration can be used if you wish to allow a customer to re-upload files at a last time - a URL to a hidden page with this block can be sent to the customer.
+
+**Reminder:** ensure that you have a high file upload limit set in your PHP server settings, especially if you are expecting orders with many file uploads at once.
