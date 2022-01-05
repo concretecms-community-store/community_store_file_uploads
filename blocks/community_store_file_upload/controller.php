@@ -87,41 +87,44 @@ class Controller extends BlockController
             $availableFields[ $f['field']] = $f;
         }
 
-        foreach ($request->files as $key => $file) {
-            // if one of the actual available file uploads for the order
+        $token = $this->app->make('token');
 
-            if (key_exists($key, $availableFields)) {
-                try {
-                    $fv = $this->processFile($request->files->get($key));
+        if ($token->validate('community_store')) {
+            foreach ($request->files as $key => $file) {
+                // if one of the actual available file uploads for the order
 
-                    $orderItemFile = OrderItemFile::getByOrderItem($availableFields[$key]['item'], $availableFields[$key]['count']);
+                if (key_exists($key, $availableFields)) {
+                    try {
+                        $fv = $this->processFile($request->files->get($key));
 
-                    if ($orderItemFile) {
-                        $existingFile =  $orderItemFile->getFile();
-                        if ($existingFile) {
-                            $existingFile->delete();
+                        $orderItemFile = OrderItemFile::getByOrderItem($availableFields[$key]['item'], $availableFields[$key]['count']);
+
+                        if ($orderItemFile) {
+                            $existingFile = $orderItemFile->getFile();
+                            if ($existingFile) {
+                                $existingFile->delete();
+                            }
+                            $actions[$key] = 'replaced';
+                        } else {
+                            $actions[$key] = 'uploaded';
+                            $orderItemFile = new OrderItemFile();
                         }
-                        $actions[$key] = 'replaced';
-                    } else {
-                        $actions[$key] = 'uploaded';
-                        $orderItemFile = new OrderItemFile();
+
+                        $orderItemFile->setOrder($order);
+                        $orderItemFile->setOrderItem($availableFields[$key]['item']);
+                        $orderItemFile->setFID($fv->getFileID());
+                        $orderItemFile->setUploaded(new \DateTime);
+                        $orderItemFile->setQuantityCount($availableFields[$key]['count']);
+                        $orderItemFile->save();
+
+                        $count++;
+
+                    } catch (\Concrete\Core\File\Import\ImportException $x) {
+                        // Manage the import exception
                     }
-
-                    $orderItemFile->setOrder($order);
-                    $orderItemFile->setOrderItem($availableFields[$key]['item']);
-                    $orderItemFile->setFID($fv->getFileID());
-                    $orderItemFile->setUploaded(new \DateTime);
-                    $orderItemFile->setQuantityCount( $availableFields[$key]['count']);
-                    $orderItemFile->save();
-
-                    $count++;
-
-                } catch (\Concrete\Core\File\Import\ImportException $x) {
-                    // Manage the import exception
                 }
             }
         }
-
 
         if ($count > 0 && trim($this->recipientEmail)) {
 
@@ -172,32 +175,35 @@ class Controller extends BlockController
     public function action_find($bID = false)
     {
         $foundOrder = false;
+        $token = $this->app->make('token');
 
         if ($this->bID == $bID && $this->allowSearching) {
 
             $request = $this->app->make(\Concrete\Core\Http\Request::class);
 
-            $email = trim($request->request('email'));
-            $orderNumber = trim($request->request('order_number'));
+            if ($token->validate('community_store')) {
+                $email = trim($request->request('email'));
+                $orderNumber = trim($request->request('order_number'));
 
-            $this->set('submittedEmail', $email);
-            $this->set('submittedOrderNumber', $orderNumber);
+                $this->set('submittedEmail', $email);
+                $this->set('submittedOrderNumber', $orderNumber);
 
-            $order = false;
+                $order = false;
 
-            if ($email && $orderNumber) {
-                $order = Order::getByID($orderNumber);
+                if ($email && $orderNumber) {
+                    $order = Order::getByID($orderNumber);
 
-                if ($order && $order->getAttribute('email') != $email) {
-                    $order = false;
+                    if ($order && $order->getAttribute('email') != $email) {
+                        $order = false;
+                    }
                 }
-            }
 
-            if (!$order) {
-                $this->set('notFound', true);
-            } else {
-                $foundOrder = true;
-                Session::set('community_foundOrderID', $order->getOrderID());
+                if (!$order) {
+                    $this->set('notFound', true);
+                } else {
+                    $foundOrder = true;
+                    Session::set('community_foundOrderID', $order->getOrderID());
+                }
             }
         }
 
