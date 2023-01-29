@@ -27,7 +27,7 @@
                     <th><strong><?= t("Item"); ?></strong></th>
                     <th class=""><?= t("Status"); ?></th>
                     <th class=""><?= t("File Uploads"); ?></th>
-                    <th class=""></th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
 
                     <tr <?= $file ? 'class="upload-completed"' : '';?>>
 
-                        <td <?= $file ? 'class="bg-success"' : '';?>><p><?= h($item->getProductName()) ?>
+                        <td <?= $file ? 'class="bg-success table-success"' : '';?>><p><?= h($item->getProductName()) ?>
                                 <?php if ($sku = $item->getSKU()) {
                                     echo '(' . h($sku) . ')';
                                 } ?>
@@ -102,7 +102,7 @@
             </table>
 
         <?php if ($fieldcount > 0) { ?>
-            <p class="text-right"><button type="submit" class="upload-button btn btn-primary"><?= $buttonLabel ? h($buttonLabel) : t('Upload') ?></button></p>
+            <p class="text-right text-end"><button type="submit" class="upload-button btn btn-primary"><?= $buttonLabel ? h($buttonLabel) : t('Upload') ?></button></p>
 
             <script>
                 $(document).ready(function(){
@@ -129,17 +129,17 @@
             <p class="alert alert-danger"><?= t('No order was found matching that order number and email'); ?></p>
         <?php } ?>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="control-label" for="email"><?= t('Order Number'); ?></label>
                 <input type="number" name="order_number" <?php if (isset($submittedOrderNumber)) { ?> value="<?= h($submittedOrderNumber); ?>"<?php } ?> required class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="control-label" for="email"><?= t('Email'); ?></label>
                 <input type="email" name="email" <?php if (isset($submittedEmail)) { ?> value="<?= h($submittedEmail); ?>"<?php } ?> required class="form-control"/>
             </div>
 
-            <button type="submit" class="btn btn-primary"><?= t('Find Order') ?></button>
+            <p class="text-right text-end"><button type="submit" class="btn btn-primary"><?= t('Find Order') ?></button></p>
 
         <?php } ?>
 

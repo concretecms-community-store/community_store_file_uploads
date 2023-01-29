@@ -10,8 +10,6 @@
         </field>
 
         <field name="buttonLabel" type="string" size="255" />
-
-
         <field name="promptText" type="text" />
         <field name="successText" type="text" />
         <field name="completedText" type="text" />

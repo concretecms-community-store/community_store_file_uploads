@@ -40,7 +40,7 @@
     <?= $form->label('replacingHours', t('Limit Duration Replacing Files Allowed')); ?>
     <div class="input-group">
     <?= $form->number('replacingHours', $replacingHours); ?>
-    <div class="input-group-addon"><?= t('hours since order placed'); ?></div>
+    <div class="input-group-addon input-group-text"><?= t('hours since order placed'); ?></div>
     </div>
     <span class="help-block"><?= t('Leave blank or 0 for no time restriction on replacing'); ?></span>
 </div>
@@ -80,7 +80,7 @@
 
 
 <fieldset>
-    <legend><?=t('Files'); ?></legend>
+    <legend><?= t('Files'); ?></legend>
     <div class="form-group">
         <label class="control-label" for="ccm-form-fileset"><?=t('Add uploaded files to a set?'); ?></label>
         <?php
@@ -103,15 +103,14 @@
 </fieldset>
 
 
-
 <fieldset>
     <legend><?=t('Email Notification'); ?></legend>
     <div class="form-group">
-        <?=$form->label('recipientEmail', t('Send uploads submission notifications to email addresses')); ?>
+        <?= $form->label('recipientEmail', t('Send uploads submission notifications to email addresses')); ?>
         <div class="input-group">
-				<span class="input-group-addon" style="z-index: 2000">
-				<?=$form->checkbox('emailNotification', 1, 1 == $emailNotification); ?>
-				</span><?=$form->text('recipientEmail', $recipientEmail, ['autocomplete' => 'off', 'style' => 'z-index:2000;']); ?>
+				<span class="input-group-addon input-group-text" style="z-index: 2000">
+                <?= $form->checkbox('emailNotification', 1, isset($emailNotification) ? $emailNotification : false); ?>
+				</span><?= $form->text('recipientEmail', $recipientEmail, ['autocomplete' => 'off', 'style' => 'z-index:2000;']); ?>
         </div>
         <span class="help-block"><?=t('(Separate multiple emails with a comma)'); ?></span>
     </div>

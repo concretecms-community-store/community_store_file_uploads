@@ -38,6 +38,17 @@ class Controller extends BlockController
     public function add()
     {
         $app = ApplicationFacade::getFacadeApplication();
+        $this->set('allowReplacing', false);
+        $this->set('allowSearching', false);
+        $this->set('replacingHours', '');
+        $this->set('buttonLabel', '');
+        $this->set('promptText', '');
+        $this->set('successText', '');
+        $this->set('completedText', '');
+        $this->set('addFilesToSet', []);
+        $this->set('addFilesToFolder', []);
+        $this->set('emailNotification', 0);
+        $this->set('recipientEmail', '');
         $this->set('app', $app);
     }
 
